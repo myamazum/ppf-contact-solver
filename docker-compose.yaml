@@ -1,0 +1,27 @@
+services:
+  ppf-contact-solver:
+    image: ghcr.io/st-tech/ppf-contact-solver-compiled:latest
+    container_name: ppf-contact-solver
+    restart: unless-stopped
+    init: true
+    gpus: all
+    stdin_open: true
+    tty: true
+    ports:
+      - "${WEB_PORT:-8080}:${WEB_PORT:-8080}"
+      - "${BLENDER_PORT:-9090}:${BLENDER_PORT:-9090}"
+    volumes:
+      - type: bind
+        source: ./work
+        target: /work
+    environment:
+      WEB_PORT: "${WEB_PORT:-8080}"
+      NVIDIA_VISIBLE_DEVICES: "all"
+      NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

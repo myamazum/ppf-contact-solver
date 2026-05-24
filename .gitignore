@@ -3,6 +3,10 @@ target
 bin/
 requirements.txt
 
+# Docker shared work directory contents
+work/*
+!work/.gitkeep
+
 # Blender autosave / crash artifacts
 *.blend1
 *.blend2
