@@ -4,20 +4,23 @@ services:
     container_name: ppf-contact-solver
     restart: unless-stopped
     init: true
-    gpus: all
     stdin_open: true
     tty: true
+
     ports:
       - "${WEB_PORT:-8080}:${WEB_PORT:-8080}"
-      - "${BLENDER_PORT:-9090}:${BLENDER_PORT:-9090}"
+      - "${BLENDER_PORT:-9090}:9090"
+
     volumes:
-      - type: bind
-        source: ./work
-        target: /work
+      - ./work:/work
+      - ./crates/ppf-cts-solver/src:/root/ppf-contact-solver/crates/ppf-cts-solver/src:ro
+      - ./crates/ppf-cts-core/src:/root/ppf-contact-solver/crates/ppf-cts-core/src:ro
+
     environment:
       WEB_PORT: "${WEB_PORT:-8080}"
       NVIDIA_VISIBLE_DEVICES: "all"
       NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
+
     deploy:
       resources:
         reservations:
