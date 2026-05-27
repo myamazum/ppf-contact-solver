@@ -30,6 +30,7 @@ cache
 npy/*
 npm*
 *.tmp
+*.bak
 __pycache__
 .clangd.swp
 .vscode
